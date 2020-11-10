@@ -5,7 +5,7 @@
  * @author    Plati.Online <support@plationline.ro>
  * @copyright 2020 Plati.Online
  * @license   Plati.Online
- * @version   Release: $Revision: 6.0.1
+ * @version   Release: $Revision: 6.0.2
  * @date      17/07/2018
  */
 
@@ -52,6 +52,12 @@ class PlationlineValidationModuleFrontController extends ModuleFrontController
 		$orderNumber = Order::getIdByCartId((int)$cart->id);
 		$f_request = array();
 		$f_request['f_order_number'] = $orderNumber;
+
+		$precision = (int)Configuration::get('PS_PRICE_DISPLAY_PRECISION');
+		if ($precision > 2) {
+			$precision = 2;
+		}
+
 		$f_request['f_amount'] = round($total, 2);
 
 		$f_request['f_currency'] = Tools::strtoupper($currency->iso_code);
@@ -168,8 +174,8 @@ class PlationlineValidationModuleFrontController extends ModuleFrontController
 			$item['name'] = Tools::substr(htmlspecialchars($product['name'], ENT_QUOTES), 0, 250);
 			$item['description'] = Tools::substr(htmlspecialchars(strip_tags($product['description_short']), ENT_QUOTES), 0, 250);
 			$item['qty'] = $product['cart_quantity'];
-			$item['itemprice'] = round($product['price'], 2);
-			$item['vat'] = round($product['rate'] * $product['price'] * $product['cart_quantity'] / 100, 2);
+			$item['itemprice'] = round($product['price'], $precision);
+			$item['vat'] = round($product['rate'] * $product['price'] * $product['cart_quantity'] / 100, $precision);
 			$item['stamp'] = date('Y-m-d', strtotime($product['date_add']));
 			$item['prodtype_id'] = 0;
 
@@ -199,20 +205,20 @@ class PlationlineValidationModuleFrontController extends ModuleFrontController
 				$i++;
 				$coupon = array();
 				$coupon['key'] = $cupon["id_discount"];
-				$coupon['value'] = round($cupon["value_tax_exc"], 2);
+				$coupon['value'] = round($cupon["value_tax_exc"], $precision);
 				$coupon['percent'] = 0;
 				$coupon['workingname'] = $cupon["name"];
 				$coupon['type'] = 0;
 				$coupon['scop'] = 1;
-				$coupon['vat'] = round(((float)$cupon["value_real"] - (float)$cupon["value_tax_exc"]), 2);
+				$coupon['vat'] = round(((float)$cupon["value_real"] - (float)$cupon["value_tax_exc"]), $precision);
 				$f_request['f_order_cart']['coupon' . $i] = $coupon;
 			}
 		}
 
 		//shipping
 		$shipping = array();
-		$shipping['price'] = round($cart->getTotalShippingCost(null, false), 2);
-		$shipping['vat'] = round(1 * ($cart->getTotalShippingCost(null, true) - $cart->getTotalShippingCost(null, false)), 2);
+		$shipping['price'] = round($cart->getTotalShippingCost(null, false), $precision);
+		$shipping['vat'] = round(1 * ($cart->getTotalShippingCost(null, true) - $cart->getTotalShippingCost(null, false)), $precision);
 		$shipping['name'] = Tools::substr(htmlspecialchars($shipping_method->name, ENT_QUOTES), 0, 250);
 		$shipping['pimg'] = 0;
 

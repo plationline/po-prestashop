@@ -5,7 +5,7 @@
  * @author    Plati.Online <support@plationline.ro>
  * @copyright 2020 Plati.Online
  * @license   Plati.Online
- * @version   Release: $Revision: 6.0.1
+ * @version   Release: $Revision: 6.0.2
  * @date      17/07/2018
  */
 
@@ -60,7 +60,7 @@ class Plationline extends PaymentModule
 	{
 		$this->name = 'plationline';
 		$this->tab = 'payments_gateways';
-		$this->version = '6.0.1';
+		$this->version = '6.0.2';
 		$this->author = 'PlatiOnline';
 		$this->controllers = array('payment', 'validation');
 
