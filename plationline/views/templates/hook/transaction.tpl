@@ -38,7 +38,7 @@
         </div>
     </div>
     <div class="row po6-row">
-        <div class="col-sm-4">
+        <div class="col-sm-4 form-inline">
             <input value="{$amount|floatval}" class="po6-left form-control fixed-width-sm pull-left" id="refund-po6-amount" type="number" step="0.01" min="0.01" max="{$amount|floatval}">
             <span class="po6-margin-10">{$currency|escape:"htmlall":"UTF-8"}</span>
             <button type="button" class="btn btn-primary" id="refund-po6">{l s='Refund specified amount' mod='plationline'}</button>

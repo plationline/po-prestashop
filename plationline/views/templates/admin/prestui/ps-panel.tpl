@@ -1,7 +1,7 @@
 {*
 *	The MIT License (MIT)
 *
-*	Copyright (c) 2015-2020 Emmanuel MARICHAL
+*	Copyright (c) 2015-2017 Emmanuel MARICHAL
 *
 *	Permission is hereby granted, free of charge, to any person obtaining a copy
 *	of this software and associated documentation files (the "Software"), to deal
@@ -172,8 +172,18 @@
 
 <script type="riot/tag">
     <ps-panel>
+    {if $ps_version >= 1.77}
 
-        {if $ps_version >= 1.6}
+            <div class="card">
+                <div class="card-header" if={ opts.icon || opts.header }>
+                       <h3 class="card-header-title"> <i class="{ opts.icon }" if={ opts.icon }></i> { opts.header } </h3>
+                </div>
+                <div class="card-body">
+                    <yield/>
+                </div>
+            </div>
+
+        {elseif $ps_version >= 1.6}
 
             <div class="panel">
                 <div class="panel-heading" if={ opts.icon || opts.header }>

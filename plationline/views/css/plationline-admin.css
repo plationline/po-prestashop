@@ -52,3 +52,6 @@
 .po6-margin-10 {
     margin:0 10px 0 5px;
 }
+#page-loading {
+    display:none
+}

@@ -5,7 +5,7 @@
  * @author    Plati.Online <support@plationline.ro>
  * @copyright 2020 Plati.Online
  * @license   Plati.Online
- * @version   Release: $Revision: 6.0.2
+ * @version   Release: $Revision: 6.0.3
  * @date      17/07/2018
  */
 
@@ -60,7 +60,7 @@ class Plationline extends PaymentModule
 	{
 		$this->name = 'plationline';
 		$this->tab = 'payments_gateways';
-		$this->version = '6.0.2';
+		$this->version = '6.0.3';
 		$this->author = 'PlatiOnline';
 		$this->controllers = array('payment', 'validation');
 
@@ -281,7 +281,9 @@ class Plationline extends PaymentModule
 			&& $this->registerHook('displayAdminOrder')
 			&& $this->registerHook('displayCustomerLoginFormAfter')
 			&& $this->registerHook('displayOrderDetail')
-			&& $this->registerHook('header');
+			&& $this->registerHook('header')
+			&& $this->registerHook('backOfficeHeader')
+			&& $this->registerHook('displayBackOfficeHeader');
 	}
 
 	public function uninstall()
@@ -648,11 +650,16 @@ class Plationline extends PaymentModule
 		}
 	}
 
+	public function hookDisplayBackOfficeHeader($params)
+	{
+		$this->context->controller->addJs('modules/'.$this->name.'/views/js/riot+compiler.min.js');
+		$this->context->controller->addCss('modules/'.$this->name.'/views/css/plationline-admin.css');
+	}
+
 	public function hookDisplayAdminOrder($params)
 	{
 		$order_id = (int)$params['id_order'];
 		$order = new Order($order_id);
-
 		// verific daca este platita prin PlatiOnline
 		if ($order->module == $this->name) {
 			$currency = new Currency($order->id_currency);
@@ -668,8 +675,6 @@ class Plationline extends PaymentModule
 			}
 
 			if (!empty($trans_id)) {
-				$this->context->controller->addJs($this->absolutePath . 'views/js/riot+compiler.min.js');
-				$this->context->controller->addCss($this->absolutePath . 'views/css/plationline-admin.css');
 				$this->smarty->assign('tags', array('table', 'panel'));
 				$this->smarty->assign(
 					array(

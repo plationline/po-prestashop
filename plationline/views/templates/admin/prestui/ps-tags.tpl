@@ -1,7 +1,7 @@
 {*
 *	The MIT License (MIT)
 *
-*	Copyright (c) 2015-2020 Emmanuel MARICHAL
+*	Copyright (c) 2015-2017 Emmanuel MARICHAL
 *
 *	Permission is hereby granted, free of charge, to any person obtaining a copy
 *	of this software and associated documentation files (the "Software"), to deal
@@ -30,7 +30,7 @@
 	var color_picker = false;
 </script>
 
-{assign var="ps_version" value=$smarty.const._PS_VERSION_|string_format:"%.1f"}
+{assign var="ps_version" value=$smarty.const._PS_VERSION_|replace:'.':''/1000}
 
 {foreach from=$tags item=tag}
 	{include file="./ps-$tag.tpl"}

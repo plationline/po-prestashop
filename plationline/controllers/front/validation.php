@@ -5,7 +5,7 @@
  * @author    Plati.Online <support@plationline.ro>
  * @copyright 2020 Plati.Online
  * @license   Plati.Online
- * @version   Release: $Revision: 6.0.2
+ * @version   Release: $Revision: 6.0.3
  * @date      17/07/2018
  */
 
@@ -54,6 +54,7 @@ class PlationlineValidationModuleFrontController extends ModuleFrontController
 		$f_request['f_order_number'] = $orderNumber;
 
 		$precision = (int)Configuration::get('PS_PRICE_DISPLAY_PRECISION');
+
 		if ($precision > 2) {
 			$precision = 2;
 		}
