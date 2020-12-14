@@ -189,7 +189,7 @@ class PlationlineValidationModuleFrontController extends ModuleFrontController
 			$item['name'] = Tools::substr(htmlspecialchars('Ambalare tip cadou', ENT_QUOTES), 0, 250);
 			$item['description'] = '';
 			$item['qty'] = 1;
-			$item['itemprice'] = $cart->getGiftWrappingPrice();
+			$item['itemprice'] = round($cart->getGiftWrappingPrice(), $precision);
 			$item['vat'] = 0;
 			$item['stamp'] = date('Y-m-d', strtotime($product['date_add']));
 			$item['prodtype_id'] = 0;
