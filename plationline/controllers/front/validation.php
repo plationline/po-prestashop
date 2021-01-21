@@ -55,7 +55,7 @@ class PlationlineValidationModuleFrontController extends ModuleFrontController
 
 		$precision = (int)Configuration::get('PS_PRICE_DISPLAY_PRECISION');
 
-		if ($precision > 2) {
+		if ($precision > 2 || $precision == 0) {
 			$precision = 2;
 		}
 
