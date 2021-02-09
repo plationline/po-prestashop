@@ -3,7 +3,7 @@
  * 2009-2020 Plati.Online
  *
  * @author    Plati.Online <support@plationline.ro>
- * @copyright 2020 Plati.Online
+ * @copyright 2021 Plati.Online
  * @license   Plati.Online
  * @version   Release: $Revision: 6.0.1
  * @date      17/07/2018
@@ -57,7 +57,11 @@ class PlationlinePaymentReturnModuleFrontController extends ModuleFrontControlle
 				}
 				$text = sprintf($this->module->l('Congratulations, the transaction for order #%s was successfully authorized!', 'paymentreturn'), $order_id);
 				$text_color = 'text-success';
-				$url .= $order_id . '&key=' . $customer->secure_key;
+
+				$module = Module::getInstanceByName('plationline');
+
+				Tools::redirect('index.php?controller=order-confirmation&id_cart='.$order->id_cart.'&id_module='.(int)$module->id.'&id_order='.$order_id.'&key='.$customer->secure_key);
+
 				break;
 			case '8':
 				// Declined

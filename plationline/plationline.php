@@ -3,9 +3,9 @@
  * 2009-2020 Plati.Online
  *
  * @author    Plati.Online <support@plationline.ro>
- * @copyright 2020 Plati.Online
+ * @copyright 2021 Plati.Online
  * @license   Plati.Online
- * @version   Release: $Revision: 6.0.3
+ * @version   Release: $Revision: 6.0.4
  * @date      17/07/2018
  */
 
@@ -60,7 +60,7 @@ class Plationline extends PaymentModule
 	{
 		$this->name = 'plationline';
 		$this->tab = 'payments_gateways';
-		$this->version = '6.0.3';
+		$this->version = '6.0.4';
 		$this->author = 'PlatiOnline';
 		$this->controllers = array('payment', 'validation');
 
@@ -755,5 +755,34 @@ class Plationline extends PaymentModule
 				return $this->display(__FILE__, 'views/templates/hook/retry_payment.tpl');
 			}
 		}
+	}
+
+	public function hookPaymentReturn($params)
+	{
+		if (!$this->active) {
+			return;
+		}
+
+		$order = $params['order'];
+		$order_id = $order->getOrderByCartId($params['order']->id_cart);
+
+		$url = Tools::getHttpHost(true) . __PS_BASE_URI__ . 'index.php?controller=order-detail&id_order=';
+
+		$customer = new Customer((int)$order->id_customer);
+		$url .= $order_id . '&key=' . $customer->secure_key;
+
+		$text = sprintf($this->l('Congratulations, the transaction for order #%s was successfully authorized!', 'paymentreturn'), $order_id);
+		$text_color = 'text-success';
+
+		$this->smarty->assign(array(
+			'shop_name'    => $this->context->shop->name,
+			'text'         => $text,
+			'text_color'   => $text_color,
+			'url_redirect' => $url,
+			'see_order'    => $this->l('See order', 'paymentreturn'),
+		));
+
+		return $this->fetch('module:plationline/views/templates/hook/payment_return_success.tpl');
+
 	}
 }
