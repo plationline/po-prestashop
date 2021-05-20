@@ -63,7 +63,12 @@ class PlationlineValidationModuleFrontController extends ModuleFrontController
 		$f_request['f_currency'] = Tools::strtoupper($currency->iso_code);
 
 		$lang = new Language(Tools::getValue('id_lang'));
-		$f_request['f_language'] = $lang->iso_code;
+		$f_request['f_language'] = strtolower($lang->iso_code);
+
+		$permitted_languages = array('en', 'ro', 'it', 'fr', 'de', 'es');
+		if (!in_array($f_request['f_language'], $permitted_languages)) {
+			$f_request['f_language'] = 'en';
+		}
 
 		$invoiceAddress = new Address((int)$cart->id_address_invoice);
 		$customer_info = array();
