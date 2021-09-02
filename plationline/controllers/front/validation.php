@@ -67,7 +67,7 @@ class PlationlineValidationModuleFrontController extends ModuleFrontController
 
 		$permitted_languages = array('en', 'ro', 'it', 'fr', 'de', 'es');
 		if (!in_array($f_request['f_language'], $permitted_languages)) {
-			$f_request['f_language'] = 'en';
+			$f_request['f_language'] = 'ro';
 		}
 
 		$invoiceAddress = new Address((int)$cart->id_address_invoice);
@@ -98,7 +98,7 @@ class PlationlineValidationModuleFrontController extends ModuleFrontController
 
 		//invoice
 		if ($invoiceAddress->company) {
-			$customer_info['invoice']['f_company'] = $invoiceAddress->company;
+			$customer_info['invoice']['f_company'] = substr($invoiceAddress->company, 0, 50);
 		}
 
 		if ($invoiceAddress->vat_number) {
@@ -152,7 +152,7 @@ class PlationlineValidationModuleFrontController extends ModuleFrontController
 
 		//address
 		if ($shippingAddress->company) {
-			$shipping_info['address']['f_company'] = $shippingAddress->company;
+			$shipping_info['address']['f_company'] = substr($shippingAddress->company, 0, 50);
 		}
 		$shipping_info['address']['f_zip'] = $shippingAddress->postcode ?: '-';
 		$shipping_info['address']['f_country'] = $shippingAddress->country ?: '-';
