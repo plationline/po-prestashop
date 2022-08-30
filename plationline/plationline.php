@@ -60,7 +60,7 @@ class Plationline extends PaymentModule
 	{
 		$this->name = 'plationline';
 		$this->tab = 'payments_gateways';
-		$this->version = '6.0.4';
+		$this->version = '6.0.5';
 		$this->author = 'PlatiOnline';
 		$this->controllers = array('payment', 'validation');
 

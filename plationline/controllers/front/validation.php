@@ -1,12 +1,12 @@
 <?php
 /**
- * 2009-2020 Plati.Online
+ * 2009-2022 Plati.Online
  *
  * @author    Plati.Online <support@plationline.ro>
- * @copyright 2021 Plati.Online
+ * @copyright 2022 Plati.Online
  * @license   Plati.Online
- * @version   Release: $Revision: 6.0.4
- * @date      17/07/2018
+ * @version   Release: $Revision: 6.0.5
+ * @date      30/08/2022
  */
 
 use PlatiOnlinePO6\Inc\Libraries\PO5 as PO5;
@@ -203,9 +203,9 @@ class PlationlineValidationModuleFrontController extends ModuleFrontController
 
 		$shipping_method = new Carrier($cart->id_carrier);
 
+		$i = 0;
 		if ($cart->getDiscounts()) {
 			$cupoane = $cart->getDiscounts();
-			$i = 0;
 			foreach ($cupoane as $cupon) {
 				$i++;
 				$coupon = array();
@@ -216,6 +216,22 @@ class PlationlineValidationModuleFrontController extends ModuleFrontController
 				$coupon['type'] = 0;
 				$coupon['scop'] = 1;
 				$coupon['vat'] = Tools::ps_round(((float)$cupon["value_real"] - (float)$cupon["value_tax_exc"]), $precision);
+				$f_request['f_order_cart']['coupon' . $i] = $coupon;
+			}
+		}
+
+		$cartRules = $cart->getCartRules();
+		if (!empty($cartRules)) {
+			foreach ($cartRules as $cartRule) {
+				$i++;
+				$coupon = array();
+				$coupon['key'] = $cartRule["id_discount"];
+				$coupon['value'] = Tools::ps_round($cartRule["value_tax_exc"], $precision);
+				$coupon['percent'] = 0;
+				$coupon['workingname'] = $cartRule["description"];
+				$coupon['type'] = 0;
+				$coupon['scop'] = 1;
+				$coupon['vat'] = Tools::ps_round(((float)$cartRule["value_real"] - (float)$cartRule["value_tax_exc"]), $precision);
 				$f_request['f_order_cart']['coupon' . $i] = $coupon;
 			}
 		}

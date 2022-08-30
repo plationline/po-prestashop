@@ -60,12 +60,16 @@ spl_autoload_register(function ($class_name) {
     }
 });
 
-function untrailingslashit($string)
-{
-    return rtrim($string, '/\\');
+if (!function_exists('untrailingslashit')) {
+	function untrailingslashit($string)
+	{
+		return rtrim($string, '/\\');
+	}
 }
 
-function trailingslashit($string)
-{
-    return untrailingslashit($string) . '/';
+if (!function_exists('trailingslashit')) {
+	function trailingslashit($string)
+	{
+		return untrailingslashit($string) . '/';
+	}
 }
