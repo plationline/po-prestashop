@@ -1,11 +1,11 @@
 {**
- * 2009-2020 Plati.Online
+ * 2009-2023 Plati.Online
  *
  *  @author    Plati.Online <support@plationline.ro>
- *  @copyright 2021 Plati.Online
+ *  @copyright 2023 Plati.Online
  *  @license   Plati.Online
- *  @version   Release: $Revision: 6.0.1
- *  @date      17/07/2018
+ *  @version   Release: $Revision: 6.0.6
+ *  @date      06/03/2023
  *}
 
 <ps-panel icon="icon-money" header="{l s='PlatiOnline actions for transaction ID: %s' sprintf=$trans_id d='plationline'}">

@@ -1,12 +1,12 @@
 <?php
 /**
- * 2009-2020 Plati.Online
+ * 2009-2023 Plati.Online
  *
- * @author    Plati.Online <support@plationline.ro>
- * @copyright 2020 Plati.Online
- * @license   Plati.Online
- * @version   Release: $Revision: 6.0.1
- * @date      17/07/2018
+ *  @author    Plati.Online <support@plationline.ro>
+ *  @copyright 2023 Plati.Online
+ *  @license   Plati.Online
+ *  @version   Release: $Revision: 6.0.6
+ *  @date      06/03/2023
  */
 
 use PlatiOnlinePO6\Inc\Libraries\PO5 as PO5;
@@ -19,15 +19,17 @@ class PlationlineITSNModuleFrontController extends ModuleFrontController
 		if (!Module::isEnabled('plationline') || !Tools::isSubmit('secure_key') || Tools::getValue('secure_key') != $this->module->secure_key) {
 			die(1);
 		}
+
 		$po = new PO5();
 		$po->setRSAKeyDecrypt(Configuration::get('PLATIONLINE_RO_RSA_ITSN'));
 		$po->setIVITSN(Configuration::get('PLATIONLINE_RO_IV_ITSN'));
-		$call_itsn = $po->itsn(Tools::getValue('f_itsn_message'), Tools::getValue('f_crypt_message'));
 
+		$call_itsn = $po->itsn(Tools::getValue('f_itsn_message'), Tools::getValue('f_crypt_message'));
 		$po->setRSAKeyEncrypt(Configuration::get('PLATIONLINE_RO_RSA_AUTH'));
 		$po->setIV(Configuration::get('PLATIONLINE_RO_IV_AUTH'));
 
-		$po->f_login = Configuration::get('PLATIONLINE_RO_LOGIN_ID_' . Tools::strtoupper($po->get_xml_tag_content($call_itsn, 'F_CURRENCY')));
+		$po->f_login = Tools::getValue('f_login');
+
 		$f_request = array();
 		$f_request['f_website'] = $po->f_login;
 		$f_request['f_order_number'] = $po->get_xml_tag_content($call_itsn, 'F_ORDER_NUMBER');

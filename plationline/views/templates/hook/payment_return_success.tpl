@@ -1,11 +1,11 @@
 {**
- * 2009-2020 Plati.Online
+ * 2009-2023 Plati.Online
  *
  *  @author    Plati.Online <support@plationline.ro>
- *  @copyright 2021 Plati.Online
+ *  @copyright 2023 Plati.Online
  *  @license   Plati.Online
- *  @version   Release: $Revision: 6.0.4
- *  @date      09/02/2021
+ *  @version   Release: $Revision: 6.0.6
+ *  @date      06/03/2023
  *}
 
 <h3 class="{$text_color|escape:'htmlall':'UTF-8'}">{$text|escape:'htmlall':'UTF-8'}</h3>

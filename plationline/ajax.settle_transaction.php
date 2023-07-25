@@ -1,19 +1,19 @@
 <?php
 /**
- * 2009-2020 Plati.Online
+ * 2009-2023 Plati.Online
  *
  *  @author    Plati.Online <support@plationline.ro>
- *  @copyright 2020 Plati.Online
+ *  @copyright 2023 Plati.Online
  *  @license   Plati.Online
- *  @version   Release: $Revision: 6.0.1
- *  @date      17/07/2018
+ *  @version   Release: $Revision: 6.0.6
+ *  @date      06/03/2023
  */
 
 use PlatiOnlinePO6\Inc\Libraries\PO5 as PO5;
 
-require_once(dirname(__FILE__) . '../../../config/config.inc.php');
-require_once(dirname(__FILE__) . '../../../init.php');
-include_once(dirname(__FILE__).'/plationline.php');
+require_once(__DIR__ . '../../../config/config.inc.php');
+require_once(__DIR__ . '../../../init.php');
+include_once(__DIR__ .'/plationline.php');
 
 $module = new Plationline();
 
@@ -21,9 +21,19 @@ if (!Module::isEnabled('plationline') || !Tools::isSubmit('secure_key') || Tools
     die(1);
 }
 
+$order = new Order(Tools::getValue('order_id'));
+
 $po = new PO5();
 
-$po->f_login = Configuration::get('PLATIONLINE_RO_LOGIN_ID_'.Tools::strtoupper(Tools::getValue('currency')));
+switch ($order->payment) {
+    case 'plationline_additional':
+        $po->f_login = Configuration::get('PLATIONLINE_RO_LOGIN_ID_' . Tools::strtoupper(Tools::getValue('currency')) . '_ADDITIONAL');
+        break;
+    default:
+        $po->f_login = Configuration::get('PLATIONLINE_RO_LOGIN_ID_' . Tools::strtoupper(Tools::getValue('currency')));
+        break;
+}
+
 $po->setRSAKeyEncrypt(Configuration::get('PLATIONLINE_RO_RSA_AUTH'));
 $po->setIV(Configuration::get('PLATIONLINE_RO_IV_AUTH'));
 $f_request = array();
