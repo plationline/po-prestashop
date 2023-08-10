@@ -285,7 +285,7 @@ class Plationline extends PaymentModule
             && $this->registerHook('displayAdminOrder')
             && $this->registerHook('displayCustomerLoginFormAfter')
             && $this->registerHook('displayOrderDetail')
-            && $this->registerHook('header')
+            && $this->registerHook('displayHeader')
             && $this->registerHook('backOfficeHeader')
             && $this->registerHook('displayBackOfficeHeader');
     }
@@ -344,7 +344,7 @@ class Plationline extends PaymentModule
             || !$this->unregisterHook('displayAdminOrder')
             || !$this->unregisterHook('displayCustomerLoginFormAfter')
             || !$this->unregisterHook('displayOrderDetail')
-            || !$this->unregisterHook('header')
+            || !$this->unregisterHook('displayHeader')
             || !parent::uninstall()) {
             return false;
         }
