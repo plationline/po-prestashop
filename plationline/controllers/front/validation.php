@@ -56,7 +56,7 @@ class PlationlineValidationModuleFrontController extends ModuleFrontController
         }
 
         $total = (float)$cart->getOrderTotal(true, Cart::BOTH);
-        $this->module->validateOrder((int)$cart->id, Configuration::get('PO_PENDING_AUTHORIZATION'), $total, $payment_method, null, array(), (int)$currency->id, false, $customer->secure_key);
+        $this->module->validateOrder((int)$cart->id, Configuration::get('PO_PENDING_AUTHORIZATION'), $total, $this->module->displayName, null, array(), (int)$currency->id, false, $customer->secure_key);
         // urmeaza contructia datelor pentru PO
 
         $orderNumber = Order::getIdByCartId((int)$cart->id);
