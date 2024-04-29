@@ -1,12 +1,12 @@
 <?php
 /**
- * 2009-2023 Plati.Online
+ * 2009-2024 Plati.Online
  *
  *  @author    Plati.Online <support@plationline.ro>
  *  @copyright 2023 Plati.Online
  *  @license   Plati.Online
- *  @version   Release: $Revision: 6.0.6
- *  @date      06/03/2023
+ *  @version   Release: $Revision: 6.0.7
+ *  @date      29/04/2024
  */
 
 use PlatiOnlinePO6\Inc\Libraries\PO5 as PO5;
@@ -60,7 +60,7 @@ class Plationline extends PaymentModule
     {
         $this->name = 'plationline';
         $this->tab = 'payments_gateways';
-        $this->version = '6.0.6';
+        $this->version = '6.0.7';
         $this->author = 'PlatiOnline';
         $this->controllers = array('payment', 'validation');
 

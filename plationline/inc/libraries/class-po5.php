@@ -24,25 +24,29 @@ class PO5
 	private $rsa_key_enc;
 	private $rsa_key_dec;
 	public static $url = 'https://secure.plationline.ro/';
-	public static $url_login_plationline = 'https://oauth.plationline.ro/oauth/';
-	public static $url_sv_request_xml = 'https://secure.plationline.ro/xml_validation/po.request.v5.xsd';         // any call
-	public static $url_sv_auth_xml = 'https://secure.plationline.ro/xml_validation/f_message.auth.v5.xsd';     // auth
-	public static $url_sv_auth_url_xml = 'https://secure.plationline.ro/xml_validation/auth.url.response.v5.xsd'; // auth url
-	public static $url_sv_auth_response_xml = 'https://secure.plationline.ro/xml_validation/auth.response.v5.xsd';  // auth response
-	public static $url_sv_auth_response_soap_xml = 'https://secure.plationline.ro/xml_validation/auth.soap.response.v5.xsd';// auth response soap
-	public static $url_sv_itsn_xml = 'https://secure.plationline.ro/xml_validation/itsn.v5.xsd';               // itsn
-	public static $url_sv_query_xml = 'https://secure.plationline.ro/xml_validation/f_message.query.v5.xsd';    // query
-	public static $url_sv_itsn_response_xml = 'https://secure.plationline.ro/xml_validation/query.response.v5.xsd';     // query response
-	public static $url_sv_query_by_date_xml = 'https://secure.plationline.ro/xml_validation/f_message.query-by-date.v5.xsd';    // query by date
-	public static $url_sv_query_by_date_response_xml = 'https://secure.plationline.ro/xml_validation/query-by-date.response.v5.xsd';     // query response
-	public static $url_sv_settle_xml = 'https://secure.plationline.ro/xml_validation/f_message.settle.v5.xsd';   // settle
-	public static $url_sv_settle_response_xml = 'https://secure.plationline.ro/xml_validation/settle.response.v5.xsd';    // settle response
-	public static $url_sv_void_xml = 'https://secure.plationline.ro/xml_validation/f_message.void.v5.xsd';     // void
-	public static $url_sv_void_response_xml = 'https://secure.plationline.ro/xml_validation/void.response.v5.xsd';  // void response
-	public static $url_sv_refund_xml = 'https://secure.plationline.ro/xml_validation/f_message.refund.v5.xsd';   // refund
-	public static $url_sv_refund_response_xml = 'https://secure.plationline.ro/xml_validation/refund.response.v5.xsd';    // refund response
-	public static $url_sv_paylink_xml = 'https://secure.plationline.ro/xml_validation/v5/f_message.paylink.xsd';  // paylink
-	public static $url_sv_paylink_response_xml = 'https://secure.plationline.ro/xml_validation/v5/pay.link.by.trxid.url.response.xsd';     // paylink response
+	public static $url_sv_request_xml = 'https://schemas.plationline.ro/po.request.v5.xsd';         // any call
+	public static $url_sv_auth_xml = 'https://schemas.plationline.ro/f_message.auth.v5.xsd';     // auth
+	public static $url_sv_auth_url_xml = 'https://schemas.plationline.ro/auth.url.response.v5.xsd'; // auth url
+	public static $url_sv_auth_response_xml = 'https://schemas.plationline.ro/auth.response.v5.xsd';  // auth response
+	public static $url_sv_itsn_xml = 'https://schemas.plationline.ro/itsn.v5.xsd';               // itsn
+	public static $url_sv_query_xml = 'https://schemas.plationline.ro/f_message.query.v5.xsd';    // query
+	public static $url_sv_itsn_response_xml = 'https://schemas.plationline.ro/query.response.v5.xsd';     // query response
+	public static $url_sv_query_by_date_xml = 'https://schemas.plationline.ro/f_message.query-by-date.v5.xsd';    // query by date
+	public static $url_sv_query_by_date_response_xml = 'https://schemas.plationline.ro/query-by-date.response.v5.xsd';     // query response
+	public static $url_sv_settle_xml = 'https://schemas.plationline.ro/f_message.settle.v5.xsd';   // settle
+	public static $url_sv_settle_response_xml = 'https://schemas.plationline.ro/settle.response.v5.xsd';    // settle response
+	public static $url_sv_void_xml = 'https://schemas.plationline.ro/f_message.void.v5.xsd';     // void
+	public static $url_sv_void_response_xml = 'https://schemas.plationline.ro/void.response.v5.xsd';  // void response
+	public static $url_sv_refund_xml = 'https://schemas.plationline.ro/f_message.refund.v5.xsd';   // refund
+	public static $url_sv_refund_response_xml = 'https://schemas.plationline.ro/refund.response.v5.xsd';    // refund response
+	public static $url_sv_paylink_xml = 'https://schemas.plationline.ro/f_message.paylink.xsd';  // paylink
+	public static $url_sv_paylink_response_xml = 'https://schemas.plationline.ro/pay.link.by.trxid.url.response.xsd';     // paylink response
+	public static $url_sv_sms_xml = 'https://schemas.plationline.ro/f_message.sms.v5.xsd';
+	public static $url_sv_sms_response_xml = 'https://schemas.plationline.ro/sendSMS.response.v5.xsd';
+	public static $url_sv_partner_xml = 'https://schemas.plationline.ro/f_message.partner.v5.xsd';    // add partner
+	public static $url_sv_imsn_xml = 'https://schemas.plationline.ro/imsn-v1.xsd';    // imsn partner
+	public static $url_sv_query_partener_xml = 'https://schemas.plationline.ro/f_message.query-partener.v1.xsd';    // query partener call
+	public static $url_sv_query_partener_response_xml = 'https://schemas.plationline.ro/query-partener.response.v1.xsd';    // query partener response
 
 	// public
 	public $f_login;

@@ -137,7 +137,6 @@ class Random
             session_id(1);
             ini_set('session.use_cookies', 0);
             session_cache_limiter('');
-            session_start();
 
             $v = $seed = $_SESSION['seed'] = pack('H*', hash(
                 'sha256',
@@ -158,7 +157,6 @@ class Random
             // restore old session data
             if ($old_session_id != '') {
                 session_id($old_session_id);
-                session_start();
                 ini_set('session.use_cookies', $old_use_cookies);
                 session_cache_limiter($old_session_cache_limiter);
             } else {
