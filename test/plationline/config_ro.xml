@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<module>
+    <name>plationline</name>
+    <displayName><![CDATA[Plata online cu cardul prin PlatiOnline]]></displayName>
+    <version><![CDATA[6.0.1]]></version>
+    <description><![CDATA[Plata online cu cardul prin PlatiOnline si login cu contul Plati.Online]]></description>
+    <author><![CDATA[PlatiOnline]]></author>
+    <tab><![CDATA[payments_gateways]]></tab>
+	<confirmUninstall><![CDATA[Sunteti sigur ca doriti dezinstalarea modulului Plati.Online?]]></confirmUninstall>
+    <is_configurable>1</is_configurable>
+    <need_instance>1</need_instance>
+	<limited_countries></limited_countries>
+</module>
