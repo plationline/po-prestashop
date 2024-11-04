@@ -731,10 +731,10 @@ class Plationline extends PaymentModule
 
     public function hookDisplayBackOfficeHeader($params)
     {
+        $this->context->controller->addJs('modules/' . $this->name . '/views/js/riot+compiler.min.js');
+        $this->context->controller->addCss('modules/' . $this->name . '/views/css/plationline-admin.css');
         if (strcmp(Tools::getValue('configure'), $this->name) === 0) {
-            $this->context->controller->addJs('modules/' . $this->name . '/views/js/riot+compiler.min.js');
             $this->context->controller->addJs('modules/' . $this->name . '/views/js/plationline-admin.js');
-            $this->context->controller->addCss('modules/' . $this->name . '/views/css/plationline-admin.css');
         }
     }
 
