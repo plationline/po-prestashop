@@ -3,10 +3,10 @@
  * 2009-2024 Plati.Online
  *
  *  @author    Plati.Online <support@plationline.ro>
- *  @copyright 2023 Plati.Online
+ *  @copyright 2024 Plati.Online
  *  @license   Plati.Online
- *  @version   Release: $Revision: 6.0.7
- *  @date      29/04/2024
+ *  @version   Release: $Revision: 6.0.8
+ *  @date      13/12/2024
  */
 
 use PlatiOnlinePO6\Inc\Libraries\PO5 as PO5;
