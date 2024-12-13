@@ -222,7 +222,7 @@ class PlationlineValidationModuleFrontController extends ModuleFrontController
                 $coupon['key'] = $cupon["id_discount"];
                 $coupon['value'] = Tools::ps_round($cupon["value_tax_exc"], $precision);
                 $coupon['percent'] = 0;
-                $coupon['workingname'] = $cupon["name"];
+                $coupon['workingname'] = substr(htmlspecialchars(strip_tags($cupon["name"]), ENT_QUOTES), 0, 250);
                 $coupon['type'] = 0;
                 $coupon['scop'] = 1;
                 $coupon['vat'] = Tools::ps_round(((float)$cupon["value_real"] - (float)$cupon["value_tax_exc"]), $precision);
@@ -238,7 +238,7 @@ class PlationlineValidationModuleFrontController extends ModuleFrontController
                 $coupon['key'] = $cartRule["id_discount"];
                 $coupon['value'] = Tools::ps_round($cartRule["value_tax_exc"], $precision);
                 $coupon['percent'] = 0;
-                $coupon['workingname'] = $cartRule["description"];
+                $coupon['workingname'] = substr(htmlspecialchars(strip_tags($cartRule["description"]), ENT_QUOTES), 0, 250);
                 $coupon['type'] = 0;
                 $coupon['scop'] = 1;
                 $coupon['vat'] = Tools::ps_round(((float)$cartRule["value_real"] - (float)$cartRule["value_tax_exc"]), $precision);
