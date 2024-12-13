@@ -186,8 +186,8 @@ class PlationlineValidationModuleFrontController extends ModuleFrontController
         foreach ($products as $product) {
             $item = array();
             $item['prodid'] = $product['id_product'];
-            $item['name'] = Tools::substr($product['name'], 0, 250);
-            $item['description'] = Tools::substr($product['description_short'], 0, 250);
+            $item['name'] = substr(htmlspecialchars(strip_tags($product['name']), ENT_QUOTES), 0, 250);
+            $item['description'] = substr(htmlspecialchars(strip_tags($product['description_short']), ENT_QUOTES), 0, 250);
             $item['qty'] = $product['cart_quantity'];
             $item['itemprice'] = Tools::ps_round($product['price'], $precision);
             $item['vat'] = Tools::ps_round($product['rate'] * $product['price'] * $product['cart_quantity'] / 100, $precision);
@@ -250,7 +250,7 @@ class PlationlineValidationModuleFrontController extends ModuleFrontController
         $shipping = array();
         $shipping['price'] = Tools::ps_round($cart->getTotalShippingCost(null, false), $precision);
         $shipping['vat'] = Tools::ps_round(1 * ($cart->getTotalShippingCost(null, true) - $cart->getTotalShippingCost(null, false)), $precision);
-        $shipping['name'] = Tools::substr($shipping_method->name, 0, 250);
+        $shipping['name'] = substr(htmlspecialchars(strip_tags($shipping_method->name)), 0, 250);
         $shipping['pimg'] = 0;
 
         $f_request['f_order_cart']['shipping'] = $shipping;
