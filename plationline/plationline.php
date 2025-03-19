@@ -1,12 +1,12 @@
 <?php
 /**
- * 2009-2024 Plati.Online
+ * 2009-2025 Plati.Online
  *
- *  @author    Plati.Online <support@plationline.ro>
- *  @copyright 2024 Plati.Online
- *  @license   Plati.Online
- *  @version   Release: $Revision: 6.0.8
- *  @date      13/12/2024
+ * @author    Plati.Online <support@plationline.ro>
+ * @copyright 2025 Plati.Online
+ * @license   Plati.Online
+ * @version   Release: $Revision: 6.1.0
+ * @date      25/02/2025
  */
 
 use PlatiOnlinePO6\Inc\Libraries\PO5 as PO5;
@@ -60,7 +60,7 @@ class Plationline extends PaymentModule
     {
         $this->name = 'plationline';
         $this->tab = 'payments_gateways';
-        $this->version = '6.0.8';
+        $this->version = '6.1.0';
         $this->author = 'PlatiOnline';
         $this->controllers = array('payment', 'validation');
 
@@ -104,7 +104,7 @@ class Plationline extends PaymentModule
             'PO_ONHOLD' => array('13'),
             'PO_PENDING_SETTLE' => array('3'),
             'PO_PENDING_REFUND' => array('5-1'),
-            'PO_PENDING_REFUND' => array('5-2'),
+            'PO_REFUND' => array('5-2'),
             'PO_CHARGEBACK' => array('5-3'),
             'PO_SETTLED' => array('5-4'),
             'PO_PENDING_VOID' => array('6'),
@@ -277,16 +277,15 @@ class Plationline extends PaymentModule
         Configuration::updateValue('PLATIONLINE_RO_RSA_AUTH_LOGINPO', '');
         Configuration::updateValue('PLATIONLINE_RO_LOGINPO_DEMO', 'DEMO');
         Configuration::updateValue('PLATIONLINE_RO_PAYMENT_METHOD_NAME_ADDITIONAL', '');
+        Configuration::updateValue('PLATIONLINE_RO_DAYSOFVALABILITY', '');
 
         return parent::install()
             && $this->registerHook('paymentOptions')
-            && $this->registerHook('paymentReturn')
-            && $this->registerHook('updateOrderStatus')
+            && $this->registerHook('displayPaymentReturn')
             && $this->registerHook('displayAdminOrder')
             && $this->registerHook('displayCustomerLoginFormAfter')
             && $this->registerHook('displayOrderDetail')
             && $this->registerHook('displayHeader')
-            && $this->registerHook('backOfficeHeader')
             && $this->registerHook('displayBackOfficeHeader');
     }
 
@@ -309,8 +308,9 @@ class Plationline extends PaymentModule
             || !Configuration::deleteByName('PLATIONLINE_RO_RSA_AUTH_LOGINPO')
             || !Configuration::deleteByName('PLATIONLINE_RO_LOGINPO_DEMO')
             || !Configuration::deleteByName('PLATIONLINE_RO_PAYMENT_METHOD_NAME_ADDITIONAL')
+            || !Configuration::deleteByName('PLATIONLINE_RO_DAYSOFVALABILITY')
 
-            || !$this->deleteOrderStatus('PO_AUTHORIZED')
+            /*|| !$this->deleteOrderStatus('PO_AUTHORIZED')
             || !$this->deleteOrderStatus('PO_PENDING_SETTLE')
             || !$this->deleteOrderStatus('PO_SETTLED')
             || !$this->deleteOrderStatus('PO_CANCELED')
@@ -336,15 +336,15 @@ class Plationline extends PaymentModule
             || !Configuration::deleteByName('PO_REFUND')
             || !Configuration::deleteByName('PO_PENDING_REFUND')
             || !Configuration::deleteByName('PO_PENDING_AUTHORIZATION')
-            || !Configuration::deleteByName('PO_DECLINED')
+            || !Configuration::deleteByName('PO_DECLINED')*/
 
-            || !$this->unregisterHook('paymentReturn')
-            || !$this->unregisterHook('updateOrderStatus')
+            || !$this->unregisterHook('displayPaymentReturn')
             || !$this->unregisterHook('paymentOptions')
             || !$this->unregisterHook('displayAdminOrder')
             || !$this->unregisterHook('displayCustomerLoginFormAfter')
             || !$this->unregisterHook('displayOrderDetail')
             || !$this->unregisterHook('displayHeader')
+            || !$this->unregisterHook('displayBackOfficeHeader')
             || !parent::uninstall()) {
             return false;
         }
@@ -388,6 +388,7 @@ class Plationline extends PaymentModule
             Configuration::updateValue('PLATIONLINE_RO_RSA_AUTH_LOGINPO', Tools::getValue('PLATIONLINE_RO_RSA_AUTH_LOGINPO'));
             Configuration::updateValue('PLATIONLINE_RO_LOGINPO_DEMO', Tools::getValue('PLATIONLINE_RO_LOGINPO_DEMO'));
             Configuration::updateValue('PLATIONLINE_RO_PAYMENT_METHOD_NAME_ADDITIONAL', Tools::getValue('PLATIONLINE_RO_PAYMENT_METHOD_NAME_ADDITIONAL'));
+            Configuration::updateValue('PLATIONLINE_RO_DAYSOFVALABILITY', Tools::getValue('PLATIONLINE_RO_DAYSOFVALABILITY'));
         }
         $this->html .= $this->displayConfirmation($this->trans('Settings updated', array(), 'Admin.Notifications.Success'));
     }
@@ -455,8 +456,7 @@ class Plationline extends PaymentModule
                 $payment_text = Configuration::get('PLATIONLINE_RO_PAYMENT_METHOD_NAME_ADDITIONAL');
                 $newOptionAdditional->setAction($this->context->link->getModuleLink($this->name, 'validation', array('payment_method' => $this->name . '_additional'), $this->ssl_enabled));
 
-                $newOptionAdditional->setCallToActionText($payment_text);
-                //->setAdditionalInformation($this->fetch('module:plationline/views/templates/front/' . $this->name . '_info.tpl'));
+                $newOptionAdditional->setCallToActionText($payment_text)->setAdditionalInformation($this->l('You will be redirected to PlatiOnline page'));
             }
         }
 
@@ -550,6 +550,15 @@ class Plationline extends PaymentModule
                         $this->l('The Relay Method has been automatically set up based on your shop SSL config. More info ') . ' <a rel="noopener norefferer" href="http://wiki.plationline.eu/index.php?title=Authorization_relay_response" target="_blank">' . '<b>' . $this->l('HERE') . '</b></a>'
                     ),
                     $this->getSelectForm($this->l('Operating mode'), 'PLATIONLINE_RO_DEMO', self::$account_types),
+
+                    array(
+                        'type' => 'text',
+                        'label' => $this->l('Order can be paid within (days)'),
+                        'desc' => $this->l('Number of days the payment link is valid'),
+                        'name' => 'PLATIONLINE_RO_DAYSOFVALABILITY',
+                        'required' => false,
+                    ),
+
                     array(
                         'type' => 'radio',
                         'label' => $this->l('I signed a contract with'),
@@ -675,6 +684,7 @@ class Plationline extends PaymentModule
             'PLATIONLINE_RO_RSA_AUTH_LOGINPO' => Tools::getValue('PLATIONLINE_RO_RSA_AUTH_LOGINPO', Configuration::get('PLATIONLINE_RO_RSA_AUTH_LOGINPO')),
             'PLATIONLINE_RO_LOGINPO_DEMO' => Tools::getValue('PLATIONLINE_RO_LOGINPO_DEMO', Configuration::get('PLATIONLINE_RO_LOGINPO_DEMO')),
             'PLATIONLINE_RO_PAYMENT_METHOD_NAME_ADDITIONAL' => Tools::getValue('PLATIONLINE_RO_PAYMENT_METHOD_NAME_ADDITIONAL', Configuration::get('PLATIONLINE_RO_PAYMENT_METHOD_NAME_ADDITIONAL')),
+            'PLATIONLINE_RO_DAYSOFVALABILITY' => Tools::getValue('PLATIONLINE_RO_DAYSOFVALABILITY', Configuration::get('PLATIONLINE_RO_DAYSOFVALABILITY')),
         );
     }
 
@@ -731,10 +741,13 @@ class Plationline extends PaymentModule
 
     public function hookDisplayBackOfficeHeader($params)
     {
-        $this->context->controller->addJs('modules/' . $this->name . '/views/js/riot+compiler.min.js');
-        $this->context->controller->addCss('modules/' . $this->name . '/views/css/plationline-admin.css');
-        if (strcmp(Tools::getValue('configure'), $this->name) === 0) {
+        if (Tools::getValue('module_name') == $this->name || Tools::getValue('configure') == $this->name) {
             $this->context->controller->addJs('modules/' . $this->name . '/views/js/plationline-admin.js');
+        }
+
+        if (Tools::getValue('controller') == 'AdminOrders') {
+            $this->context->controller->addJs('modules/' . $this->name . '/views/js/riot+compiler.min.js');
+            $this->context->controller->addCss('modules/' . $this->name . '/views/css/plationline-admin.css');
         }
     }
 
@@ -757,7 +770,6 @@ class Plationline extends PaymentModule
             }
 
             if (!empty($trans_id)) {
-                $this->smarty->assign('tags', array('table', 'panel'));
                 $this->smarty->assign(
                     array(
                         'order_id' => $order_id,
@@ -768,8 +780,7 @@ class Plationline extends PaymentModule
                         'absoluteUrl' => $this->absoluteUrl,
                     )
                 );
-                $html = $this->display(__FILE__, 'views/templates/hook/transaction.tpl');
-                return $html . $this->display(__FILE__, 'views/templates/admin/prestui/ps-tags.tpl');
+                return $this->display(__FILE__, 'views/templates/hook/transaction.tpl');
             }
         }
     }
@@ -839,7 +850,7 @@ class Plationline extends PaymentModule
         }
     }
 
-    public function hookPaymentReturn($params)
+    public function hookDisplayPaymentReturn($params)
     {
         if (!$this->active) {
             return;

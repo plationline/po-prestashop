@@ -256,6 +256,14 @@ class PlationlineValidationModuleFrontController extends ModuleFrontController
         $f_request['f_order_cart']['shipping'] = $shipping;
         $f_request['f_order_string'] = 'Comanda nr. ' . $orderNumber . ' pe site-ul ' . (Configuration::get('PS_SSL_ENABLED') ? _PS_BASE_URL_SSL_ : _PS_BASE_URL_);
 
+        if (!empty(Configuration::get('PLATIONLINE_RO_DAYSOFVALABILITY')) && (int)Configuration::get('PLATIONLINE_RO_DAYSOFVALABILITY') > 0) {
+            $f_request['paylink'] = array(
+                'email2client' => 0,
+                'sms2client' => 0,
+                'daysofvalability' => (int)Configuration::get('PLATIONLINE_RO_DAYSOFVALABILITY'),
+            );
+        }
+
         $po = new PO5();
 
         switch ($payment_method) {

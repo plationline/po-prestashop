@@ -47,6 +47,8 @@ $_MODULE['<{plationline}prestashop>plationline_53ef9c9c929850bde6dc247076eba6eb'
 $_MODULE['<{plationline}prestashop>plationline_f825440a0a272ee745f7a758732b1bb9'] = 'Metoda de raspuns a fost setata automat in functie de setarile SSL ale magazinului';
 $_MODULE['<{plationline}prestashop>plationline_34161d134d697cbbf8fec5ede9bcb34a'] = 'AICI';
 $_MODULE['<{plationline}prestashop>plationline_3aa43f82fc2f41e3036679584f63fe4f'] = 'Tip cont';
+$_MODULE['<{plationline}prestashop>plationline_19a0326c1b6bae77c9f3fcb13f8be7ac'] = 'Comanda poate fi platita in termen de (zile)';
+$_MODULE['<{plationline}prestashop>plationline_08601a74a15f99306e144299c0c97b77'] = 'Numarul de zile in care linkul de plata este valid';
 $_MODULE['<{plationline}prestashop>plationline_17c765f3c881e303ee6989ed2a45a47b'] = 'Am semnat contract cu';
 $_MODULE['<{plationline}prestashop>plationline_b02881a923595455c879c63409f00991'] = 'PlatiOnline';
 $_MODULE['<{plationline}prestashop>plationline_466807f5cfbe839d02194dd48d0c748c'] = 'Raiffeisen Bank';

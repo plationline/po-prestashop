@@ -40,11 +40,9 @@
 }
 
 .po6-row {
+    display: flex;
     border-bottom: 1px solid #dfdfdf;
-    padding: 1.5em 2em;
-    background: #f8f8f8;
-    line-height: 2em;
-    text-align: left;
+    padding: 1em;
 }
 .po6-description {
     float:right
