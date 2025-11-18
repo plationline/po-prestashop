@@ -1,6 +1,6 @@
 # po-prestashop
 Compatible with 
-* PrestaShop 1.7.0 and above
+* PrestaShop 1.7 and above
 * PrestaShop 8.0 and above
 * PrestaShop 9.0 and above
 
@@ -10,4 +10,4 @@ Minimum server requirements
 3. cURL >= 7.34.0
 4. php-soap extension active
 5. php-curl extension active
-6. php7/8.x-bcmath extension active for PHP 7/8.x/9.x
+6. php7/8.x-bcmath extension active for PHP 7/8.x
