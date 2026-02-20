@@ -5,7 +5,7 @@
  * @author    Plati.Online <support@plationline.ro>
  * @copyright 2025 Plati.Online
  * @license   Plati.Online
- * @version   Release: $Revision: 6.1.0
+ * @version   Release: $Revision: 6.1.1
  * @date      25/02/2025
  */
 
@@ -60,7 +60,7 @@ class Plationline extends PaymentModule
     {
         $this->name = 'plationline';
         $this->tab = 'payments_gateways';
-        $this->version = '6.1.0';
+        $this->version = '6.1.1';
         $this->author = 'PlatiOnline';
         $this->controllers = array('payment', 'validation');
 
@@ -857,7 +857,12 @@ class Plationline extends PaymentModule
         }
 
         $order = $params['order'];
-        $order_id = $order->getOrderByCartId($params['order']->id_cart);
+
+        if (method_exists('Order', 'getIdByCartId')) {
+            $order_id = Order::getIdByCartId($order->id_cart); // PS 1.7.1+
+        } else {
+            $order_id = Order::getOrderByCartId($order->id_cart); // PS 1.6
+        }
 
         $url = Tools::getHttpHost(true) . __PS_BASE_URI__ . 'index.php?controller=order-detail&id_order=';
 
