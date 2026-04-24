@@ -23,7 +23,6 @@ class PlationlinePaymentReturnModuleFrontController extends ModuleFrontControlle
 
 		$relay_method = Configuration::get('PLATIONLINE_RO_RELAY_METHOD');
 
-		$url = Tools::getHttpHost(true) . __PS_BASE_URI__ . 'index.php?controller=order-detail&id_order=';
 		$po = new PO5();
 		$po->setRSAKeyDecrypt(Configuration::get('PLATIONLINE_RO_RSA_ITSN'));
 		$po->setIVITSN(Configuration::get('PLATIONLINE_RO_IV_ITSN'));
@@ -43,6 +42,13 @@ class PlationlinePaymentReturnModuleFrontController extends ModuleFrontControlle
 
 		$customer = new Customer((int)$order->id_customer);
 		$currency = new Currency($order->id_currency);
+
+		$url = $this->context->link->getPageLink(
+			'order-detail',
+			true,
+			null,
+			'id_order=' . (int)$order_id . '&key=' . $customer->secure_key
+		);
 
 		$processed_response = true;
 
@@ -71,7 +77,7 @@ class PlationlinePaymentReturnModuleFrontController extends ModuleFrontControlle
 				}
 				$text = sprintf($this->module->l('The transaction for order #%s was declined! Reason: %s', 'paymentreturn'), $order_id, $message);
 				$text_color = 'text-danger';
-				$url .= $order_id . '&key=' . $customer->secure_key;
+
 				break;
 			case '10':
 			case '16':
@@ -83,7 +89,7 @@ class PlationlinePaymentReturnModuleFrontController extends ModuleFrontControlle
 				}
 				$text = sprintf($this->module->l('An error was encountered in authorization process for order #%s', 'paymentreturn'), $order_id);
 				$text_color = 'text-danger';
-				$url .= $order_id . '&key=' . $customer->secure_key;
+
 				break;
 			case '13':
 				// On Hold
@@ -93,7 +99,7 @@ class PlationlinePaymentReturnModuleFrontController extends ModuleFrontControlle
 				}
 				$text = sprintf($this->module->l('The transaction for order #%s is on hold, additional verification is needed!', 'paymentreturn'), $order_id);
 				$text_color = 'text-warning';
-				$url .= $order_id . '&key=' . $customer->secure_key;
+
 				break;
 			default:
 				$processed_response = true;

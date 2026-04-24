@@ -10,7 +10,7 @@
 
 <div class="alert">
 	<h2>
-		<img src="../modules/plationline/logo.png" style="float:left; margin-right:15px;" width="58" height="22">
+		<img src="{$module_dir}logo.png" style="float:left; margin-right:15px;" width="58" height="22">
 		<p><strong>{l s='Online payment by card and Login with Plati.Online account' d='plationline'}</strong></p>
 	</h2>
 	<p>{l s='The settings needed to setup Plati.Online module can be obtained from merchants account by accesing the following link: ' mod='plationline'} <a rel="noopener norefferer" href="https://merchants.plationline.ro" target="_blank"><strong>https://merchants.plationline.ro</strong></a></p>

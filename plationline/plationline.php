@@ -864,10 +864,13 @@ class Plationline extends PaymentModule
             $order_id = Order::getOrderByCartId($order->id_cart); // PS 1.6
         }
 
-        $url = Tools::getHttpHost(true) . __PS_BASE_URI__ . 'index.php?controller=order-detail&id_order=';
-
         $customer = new Customer((int)$order->id_customer);
-        $url .= $order_id . '&key=' . $customer->secure_key;
+        $url = $this->context->link->getPageLink(
+            'order-detail',
+            true,
+            null,
+            'id_order=' . (int)$order_id . '&key=' . $customer->secure_key
+        );
 
         $text = sprintf($this->l('Congratulations, the transaction for order #%s was successfully authorized!', 'paymentreturn'), $order_id);
         $text_color = 'text-success';
